@@ -3,13 +3,15 @@ import { Changeset } from 'ember-changeset';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import lookupValidator from 'ember-changeset-validations';
 import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 
 const validator = {
   title: [validatePresence(true)],
   content: [validatePresence(true)],
   comments: [
     (e) => {
+      /**
+       * Validates only when array is changed
+       */
       console.log(e);
       return true;
     },
@@ -20,11 +22,11 @@ const validator = {
       console.log(e);
       return true;
     },
-  ]
+  ],
 };
 
 export default class FormComponent extends Component {
-  @tracked changeset;
+  changeset;
 
   constructor(owner, args) {
     super(owner, args);
@@ -48,7 +50,9 @@ export default class FormComponent extends Component {
 
   @action
   setValue(key, e) {
+    console.log(key, e.target.value);
     this.changeset.set(key, e.target.value);
+    this.changeset.get(key);
   }
 
   @action

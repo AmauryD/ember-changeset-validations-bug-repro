@@ -14,7 +14,6 @@
 {{#each (changeset-get this.changeset 'comments') as |comment index|}}
   <label>
     {{#let (concat 'comments.' index '.content') as |key|}}
-
       <input
         value={{changeset-get this.changeset key}}
         {{on 'change' (fn this.setValue key)}}
