@@ -1,0 +1,31 @@
+<label>
+  <input
+    value={{changeset-get this.changeset 'title'}}
+    {{on 'change' (fn this.setValue 'title')}}
+  />
+</label>
+<label>
+  <input
+    value={{changeset-get this.changeset 'content'}}
+    {{on 'change' (fn this.setValue 'content')}}
+  />
+</label>
+<h2>Comments</h2>
+{{#each (changeset-get this.changeset 'comments') as |comment index|}}
+  <label>
+    {{#let (concat 'comments.' index '.content') as |key|}}
+
+      <input
+        value={{changeset-get this.changeset key}}
+        {{on 'change' (fn this.setValue key)}}
+      />
+    {{/let}}
+  </label>
+{{/each}}
+
+<button type='button' {{on 'click' this.rollback}}>Cancel</button>
+<button type='button' {{on 'click' this.newComment}}>Add comment</button>
+
+<p>
+  {{json this.changeset.errors}}
+</p>
